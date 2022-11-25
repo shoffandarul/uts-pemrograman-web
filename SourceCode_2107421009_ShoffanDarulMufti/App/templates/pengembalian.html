@@ -157,12 +157,11 @@
               <table class="table table-striped projects text-center">
                 <thead>
                   <tr>
-                    <th>ID Pengembalian</th>
                     <th>Tanggal Kembali</th>
                     <th>Denda</th>
-                    <th>ID Buku</th>
-                    <th>ID Anggota</th>
-                    <th>ID Petugas</th>
+                    <th>Nama Buku</th>
+                    <th>Nama Anggota</th>
+                    <th>Nama Petugas</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -170,13 +169,10 @@
                   {% for item in kalimat %}
                   <tr>
                     <td>
-                      <p href="{{ item }}">{{ item[0] }}</p>
-                    </td>
-                    <td>
                       <p href="{{ item }}">{{ item[1] }}</p>
                     </td>
                     <td>
-                      <p href="{{ item }}">{{ item[2] }}</p>
+                      <p href="{{ item }}">Rp{{ item[2] }}</p>
                     </td>
                     <td>
                       <p href="{{ item }}">{{ item[3] }}</p>

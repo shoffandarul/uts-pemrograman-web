@@ -47,7 +47,7 @@ def dashboard():
 
 @application.route('/peminjaman')
 def peminjaman():
-    output_json = getMethod("SELECT * from peminjaman")
+    output_json = getMethod("SELECT p.id_peminjaman, p.tanggal_peminjaman, p.tanggal_kembali, b.judul_buku, a.nama_anggota, t.nama_petugas from peminjaman p inner join buku b on b.id_buku = p.id_buku inner join anggota a on a.id_anggota = p.id_anggota inner join petugas t on t.id_petugas = p.id_petugas")
     return render_template('peminjaman.html',kalimat=output_json)
 
 @application.route('/peminjamanAdd', methods=['GET', 'POST'])   
@@ -95,7 +95,7 @@ def peminjamanDelete(id):
 
 @application.route('/pengembalian')
 def pengembalian():
-    output_json = getMethod("SELECT * from pengembalian")
+    output_json = getMethod("SELECT p.id_pengembalian, p.tanggal_pengembalian, p.denda, b.judul_buku, a.nama_anggota, t.nama_petugas from pengembalian p inner join buku b on b.id_buku = p.id_buku inner join anggota a on a.id_anggota = p.id_anggota inner join petugas t on t.id_petugas = p.id_petugas")
     return render_template('pengembalian.html',kalimat=output_json)
 
 @application.route('/pengembalianAdd', methods=['GET', 'POST']) 
@@ -185,7 +185,7 @@ def bukuDelete(id):
 
 @application.route('/rak')
 def rak():
-    output_json = getMethod("SELECT * from rak")
+    output_json = getMethod("SELECT rak.id_rak, rak.nama_rak, rak.lokasi_rak, buku.judul_buku FROM buku INNER JOIN rak ON buku.id_buku = rak.id_buku;")
     return render_template('rak.html',kalimat=output_json)
 
 @application.route('/rakAdd', methods=['GET', 'POST']) 
