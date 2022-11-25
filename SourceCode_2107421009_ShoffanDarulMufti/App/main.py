@@ -53,9 +53,11 @@ def peminjaman():
 @application.route('/peminjamanAdd', methods=['GET', 'POST'])   
 def peminjamanAdd():							
     if request.method == 'GET':
+        # contoh form yang ada relasinya, dia ngambil data dulu dari tabel yang ada primary key
         id_buku_json = getMethod("SELECT id_buku, judul_buku FROM `buku`")
         id_anggota_json = getMethod("SELECT id_anggota, nama_anggota FROM `anggota`")
         id_petugas_json = getMethod("SELECT id_petugas, nama_petugas FROM `petugas`")
+        # terus di lempar ke html peminjamanAdd, line 179 - 203, udah gitu aja :)
         return render_template('peminjamanAdd.html', id_buku = id_buku_json, id_anggota = id_anggota_json, id_petugas = id_petugas_json)	
     elif request.method =='POST':
         id = request.form['id']			
@@ -223,6 +225,7 @@ def rakDelete(id):
 @application.route('/anggota')  
 def anggota():                  
     output_json = getMethod("SELECT * from anggota")
+    print(output_json)
     return render_template('anggota.html',kalimat=output_json) 
 
 @application.route('/anggotaAdd', methods=['GET', 'POST']) 
@@ -237,7 +240,9 @@ def anggotaAdd():
         jurusan = request.form['jurusan']
         hp = request.form['hp']
         alamat = request.form['alamat']
-        postMethod("INSERT INTO `anggota` (`id_anggota`, `kode_anggota`, `nama_anggota`, `jk_anggota`, `jurusan_anggota`, `no_telp_anggota`, `alamat_anggota`) VALUES ('"+id+"', '"+kode+"', '"+nama+"', '"+jk+"','"+jurusan+"', '"+hp+"', '"+alamat+"');", 'Data anggota Berhasil Ditambah')
+        genre = request.form.getlist("genre")
+        genre_arr = ', '.join(genre)
+        postMethod("INSERT INTO `anggota` (`id_anggota`, `kode_anggota`, `nama_anggota`, `jk_anggota`, `jurusan_anggota`, `no_telp_anggota`, `alamat_anggota`, `genre_buku`) VALUES ('"+id+"', '"+kode+"', '"+nama+"', '"+jk+"','"+jurusan+"', '"+hp+"', '"+alamat+"', '"+genre_arr+"');", 'Data anggota Berhasil Ditambah')
         return redirect(url_for('anggota'))	
 
 @application.route('/anggotaUpdate/<int:id>', methods=['GET', 'POST'])
@@ -254,7 +259,9 @@ def anggotaUpdate(id):
         jurusan = request.form['jurusan']
         hp = request.form['hp']
         alamat = request.form['alamat']
-        postMethod("UPDATE `anggota` SET `id_anggota` = '"+id_anggota+"', `kode_anggota` = '"+kode+"', `nama_anggota` = '"+nama+"', `jk_anggota` = '"+jk+"', `jurusan_anggota` = '"+jurusan+"', `no_telp_anggota` = '"+hp+"', `alamat_anggota` = '"+alamat+"' WHERE `anggota`.`id_anggota` = "+str(id)+";", 'Data anggota Berhasil Diubah')
+        genre = request.form.getlist("genre")
+        genre_arr = ', '.join(genre)
+        postMethod("UPDATE `anggota` SET `id_anggota` = '"+id_anggota+"', `kode_anggota` = '"+kode+"', `nama_anggota` = '"+nama+"', `jk_anggota` = '"+jk+"', `jurusan_anggota` = '"+jurusan+"', `no_telp_anggota` = '"+hp+"', `alamat_anggota` = '"+alamat+"', `genre_buku` = '"+genre_arr+"' WHERE `anggota`.`id_anggota` = "+str(id)+";", 'Data anggota Berhasil Diubah')
         return redirect(url_for('anggota'))
 
 @application.route('/anggotaDelete/<int:id>', methods=['GET'])
