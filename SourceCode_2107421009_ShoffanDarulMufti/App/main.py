@@ -41,6 +41,42 @@ def index():
     kalimat='Ini kalimat dari python'
     return render_template('index.html',kalimat_tampil=kalimat)
 
+@application.route('/register', methods=['GET', 'POST'])   
+def register():							
+    if request.method == 'GET':
+        return render_template('register.html')	
+    elif request.method =='POST':
+        user = request.form['user']			
+        passwd = request.form['passwd']	
+        passwd_confirm = request.form['passwd_confirm']
+
+    	# cek password confirmation
+        if passwd == passwd_confirm:
+            postMethod("INSERT INTO `userlist` (`username`, `password`) VALUES ('"+user+"', '"+passwd+"');", 'User behasil dibuat')
+        else:
+            flash('Password tidak sama', 'error')
+        return render_template('register.html')		
+
+
+@application.route('/login', methods=['GET', 'POST'])
+def login():
+    userlist = getMethod("SELECT * FROM `userlist`")
+    if request.method == 'GET':
+        return render_template('login.html')	
+    elif request.method =='POST':
+        user = request.form['user']			
+        passwd = request.form['passwd']		
+        	
+        for kolom in userlist:
+            for i in range(len(kolom)):
+                if str(user) == kolom[i]:
+                    if str(passwd) == kolom[i+1]:
+                        return redirect(url_for('dashboard'))
+                    else:
+                        break
+        flash('invalid username/password', 'error')
+        return render_template('login.html')
+
 @application.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
