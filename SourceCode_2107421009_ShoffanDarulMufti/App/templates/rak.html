@@ -157,8 +157,9 @@
               <table class="table table-striped projects text-center">
                 <thead>
                   <tr>
-                    <th>Nama Rak</th>
+                    <th>ID Rak</th>
                     <th>Lokasi Rak</th>
+                    <th>Nama Rak</th>
                     <th>Buku</th>
                     <th>Aksi</th>
                   </tr>
@@ -167,20 +168,23 @@
                   {% for item in kalimat %}
                   <tr>
                     <td>
-                      <p>{{ item[1] }}</p>
+                      <p>{{ item[0] }}</p>
                     </td>
                     <td>
                       <p>{{ item[2] }}</p>
                     </td>
-                    <td>
-                      <p>{{ item[3] }}</p>
+                    <td class="text-left">
+                      <p>{{ item[1] }}</p>
+                    </td>
+                    <td class="text-left">
+                      <p>{{ item[5] }}</p>
                     </td>
                     <td class="project-actions">
                       <a class="btn btn-info btn-sm" href="rakUpdate/{{ item[0] }}">
                         <i class="fas fa-pencil-alt"> </i>
                         Edit
                       </a>
-                      <a class="btn btn-danger btn-sm" href="rakDelete/{{ item[0] }}" onclick="return confirm('Are you sure you want to delete?');">
+                      <a class="btn btn-danger btn-sm" href="rakDelete/{{ item[3] }}" onclick="return confirm('Are you sure you want to delete?');">
                         <i class="fas fa-trash"> </i>
                         Delete
                       </a>

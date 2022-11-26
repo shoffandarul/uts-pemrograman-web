@@ -221,7 +221,7 @@ def bukuDelete(id):
 
 @application.route('/rak')
 def rak():
-    output_json = getMethod("SELECT rak.id_rak, rak.nama_rak, rak.lokasi_rak, buku.judul_buku FROM buku INNER JOIN rak ON buku.id_buku = rak.id_buku;")
+    output_json = getMethod("SELECT r.id_rak, r.nama_rak, r.lokasi_rak, rb.id_relasi, rb.id_buku, b.judul_buku FROM rak r INNER JOIN relasi_rak_buku rb ON rb.id_rak = r.id_rak INNER JOIN buku b ON b.id_buku = rb.id_buku ORDER BY `r`.`id_rak` ASC")
     return render_template('rak.html',kalimat=output_json)
 
 @application.route('/rakAdd', methods=['GET', 'POST']) 
@@ -230,31 +230,41 @@ def rakAdd():
         id_buku_json = getMethod("SELECT id_buku, judul_buku FROM `buku`")
         return render_template('rakAdd.html', id_buku = id_buku_json)
     elif request.method =='POST':
-        id = request.form['id']			
+        id_rak = request.form['id_rak']			
         nama = request.form['nama']				
         lokasi = request.form['lokasi']			
-        id_buku = request.form['id_buku']
-        postMethod("INSERT INTO `rak` (`id_rak`, `nama_rak`, `lokasi_rak`, `id_buku`) VALUES ('"+id+"', '"+nama+"', '"+lokasi+"','"+id_buku+"');", 'Data rak Berhasil Ditambah')
+        buku = request.form.getlist("buku")
+        postMethod("INSERT INTO `rak` (`id_rak`, `nama_rak`, `lokasi_rak`) VALUES ('"+id_rak+"', '"+nama+"', '"+lokasi+"');", 'Data rak Berhasil Ditambah')
+        for i in buku:
+            postMethod("INSERT INTO `relasi_rak_buku` (`id_rak`, `id_buku`) VALUES ('"+id_rak+"', '"+i+"');", 'success')
+            print(i)
         return redirect(url_for('rak'))	
 
 @application.route('/rakUpdate/<int:id>', methods=['GET', 'POST'])
 def rakUpdate(id):
     if request.method == 'GET':
         id_buku_json = getMethod("SELECT id_buku, judul_buku FROM `buku`")
-        data_lama = getMethod("SELECT * from rak WHERE id_rak='"+str(id)+"';")
-        return render_template('rakUpdate.html', id_buku = id_buku_json, data_lama = data_lama)	
+        data_rak = getMethod("SELECT * from rak WHERE id_rak='"+str(id)+"';")
+        return render_template('rakUpdate.html', data_buku = id_buku_json, data_rak = data_rak)	
     elif request.method == 'POST':
-        id = request.form['id']			
+        id_rak = request.form['id_rak']			
         nama = request.form['nama']				
         lokasi = request.form['lokasi']			
-        id_buku = request.form['id_buku']
-        postMethod("UPDATE `rak` SET `id_rak` = '"+id+"', `nama_rak` = '"+nama+"', `lokasi_rak` = '"+lokasi+"', `id_buku` = '"+id_buku+"' WHERE `rak`.`id_rak` = "+str(id)+";", 'Data rak Berhasil Diubah')
+        buku = request.form.getlist("buku")
+        postMethod("UPDATE `rak` SET `id_rak` = '"+str(id_rak)+"', `nama_rak` = '"+nama+"', `lokasi_rak` = '"+lokasi+"' WHERE `rak`.`id_rak` = "+str(id_rak)+";", 'Data rak Berhasil Diubah')
+        postMethod("DELETE FROM `relasi_rak_buku` WHERE `relasi_rak_buku`.`id_rak` = '"+str(id)+"';", 'Data rak Berhasil Diubah')
+        for i in buku:
+            postMethod("INSERT INTO `relasi_rak_buku` (`id_rak`, `id_buku`) VALUES ('"+id_rak+"', '"+i+"');", 'success')
+            print(i)
+        return redirect(url_for('rak'))	
+        
+        postMethod("UPDATE `rak` SET `id_rak` = '"+id+"', `nama_rak` = '"+nama+"', `lokasi_rak` = '"+lokasi+"' WHERE `rak`.`id_rak` = "+str(id)+";", 'Data rak Berhasil Diubah')
         return redirect(url_for('rak'))
 
 @application.route('/rakDelete/<int:id>', methods=['GET'])
 def rakDelete(id):
     if request.method == 'GET':
-        postMethod("DELETE FROM `rak` WHERE `rak`.`id_rak` = '"+str(id)+"';", 'Data rak Berhasil Dihapus')
+        postMethod("DELETE FROM `relasi_rak_buku` WHERE `relasi_rak_buku`.`id_relasi` = '"+str(id)+"';", 'Data rak Berhasil Dihapus')
         return redirect(url_for('rak'))
     return render_template('rak.html')
 
@@ -277,6 +287,7 @@ def anggotaAdd():
         hp = request.form['hp']
         alamat = request.form['alamat']
         genre = request.form.getlist("genre")
+        print("ini genre" + list(genre))
         genre_arr = ', '.join(genre)
         postMethod("INSERT INTO `anggota` (`id_anggota`, `kode_anggota`, `nama_anggota`, `jk_anggota`, `jurusan_anggota`, `no_telp_anggota`, `alamat_anggota`, `genre_buku`) VALUES ('"+id+"', '"+kode+"', '"+nama+"', '"+jk+"','"+jurusan+"', '"+hp+"', '"+alamat+"', '"+genre_arr+"');", 'Data anggota Berhasil Ditambah')
         return redirect(url_for('anggota'))	
