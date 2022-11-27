@@ -152,7 +152,7 @@
               </div>
             </div>
             <div class="card-body p-0">
-              <table class="table table-striped projects text-center">
+              <table class="table table-striped projects text-left">
                 <thead>
                   <tr>
                     <th>Nama</th>
@@ -161,14 +161,13 @@
                     <th>Jurusan</th>
                     <th>No. Telpon</th>
                     <th>Alamat</th>
-                    <th style="width: 20%">Genre Buku</th>
-                    <th>Edit/Delete</th>
+                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for item in kalimat %}
                   <tr>
-                    <td class="text-left">
+                    <td>
                       <p class="m-0">
                         {{ item[1] }} <br />
                         <small>ID: {{ item[0] }}</small>
@@ -188,9 +187,6 @@
                     </td>
                     <td>
                       <p class="m-0">{{ item[6] }}</p>
-                    </td>
-                    <td>
-                      <p class="m-0">{{ item[7] }}</p>
                     </td>
                     <td class="project-actions">
                       <a class="btn btn-info btn-sm" href="anggotaUpdate/{{ item[0] }}">

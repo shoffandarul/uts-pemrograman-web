@@ -152,34 +152,33 @@
               </div>
             </div>
             <div class="card-body p-0">
-              <table class="table table-striped projects text-center">
+              <table class="table table-striped projects text-left">
                 <thead>
                   <tr>
-                    <th>ID Petugas</th>
                     <th>Nama Petugas</th>
                     <th>Jabatan</th>
                     <th>No. Telpon</th>
                     <th>Alamat</th>
-                    <th>Edit/Delete</th>
+                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for item in kalimat %}
                   <tr>
                     <td>
-                      <p href="{{ item }}">{{ item[0] }}</p>
+                      <p class="m-0">
+                        {{ item[1] }} <br />
+                        <small>ID: {{ item[0] }}</small>
+                      </p>
                     </td>
                     <td>
-                      <p href="{{ item }}">{{ item[1] }}</p>
+                      <p class="m-0">{{ item[2] }}</p>
                     </td>
                     <td>
-                      <p href="{{ item }}">{{ item[2] }}</p>
+                      <p class="m-0">{{ item[3] }}</p>
                     </td>
                     <td>
-                      <p href="{{ item }}">{{ item[3] }}</p>
-                    </td>
-                    <td>
-                      <p href="{{ item }}">{{ item[4] }}</p>
+                      <p class="m-0">{{ item[4] }}</p>
                     </td>
                     <td class="project-actions">
                       <a class="btn btn-info btn-sm" href="petugasUpdate/{{ item[0] }}">

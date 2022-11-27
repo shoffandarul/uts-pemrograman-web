@@ -83,7 +83,7 @@ def dashboard():
 
 @application.route('/peminjaman')
 def peminjaman():
-    output_json = getMethod("SELECT p.id_peminjaman, p.tanggal_peminjaman, p.tanggal_kembali, b.judul_buku, a.nama_anggota, t.nama_petugas from peminjaman p inner join buku b on b.id_buku = p.id_buku inner join anggota a on a.id_anggota = p.id_anggota inner join petugas t on t.id_petugas = p.id_petugas")
+    output_json = getMethod("SELECT p.id_peminjaman, p.tanggal_peminjaman, p.tanggal_kembali, b.judul_buku, a.nama_anggota, t.nama_petugas from peminjaman p inner join buku b on b.id_buku = p.id_buku inner join anggota a on a.id_anggota = p.id_anggota inner join petugas t on t.id_petugas = p.id_petugas  ORDER BY `p`.`tanggal_peminjaman` DESC")
     return render_template('peminjaman.html',kalimat=output_json)
 
 @application.route('/peminjamanAdd', methods=['GET', 'POST'])   
@@ -95,14 +95,13 @@ def peminjamanAdd():
         id_petugas_json = getMethod("SELECT id_petugas, nama_petugas FROM `petugas`")
         # terus di lempar ke html peminjamanAdd, line 179 - 203, udah gitu aja :)
         return render_template('peminjamanAdd.html', id_buku = id_buku_json, id_anggota = id_anggota_json, id_petugas = id_petugas_json)	
-    elif request.method =='POST':
-        id = request.form['id']			
+    elif request.method =='POST':		
         tanggal_pinjam = request.form['tanggal_pinjam']			
         tanggal_kembali = request.form['tanggal_kembali']				
         id_buku = request.form['id_buku']
         id_anggota = request.form['id_anggota']
         id_petugas = request.form['id_petugas']
-        postMethod("INSERT INTO `peminjaman` (`id_peminjaman`, `tanggal_peminjaman`, `tanggal_kembali`, `id_buku`, `id_anggota`, `id_petugas`) VALUES ('"+id+"', '"+tanggal_pinjam+"', '"+tanggal_kembali+"','"+id_buku+"', '"+id_anggota+"', '"+id_petugas+"');", 'Data Peminjaman Berhasil Ditambah')
+        postMethod("INSERT INTO `peminjaman` (`tanggal_peminjaman`, `tanggal_kembali`, `id_buku`, `id_anggota`, `id_petugas`) VALUES ('"+tanggal_pinjam+"', '"+tanggal_kembali+"','"+id_buku+"', '"+id_anggota+"', '"+id_petugas+"');", 'Data Peminjaman Berhasil Ditambah')
         return redirect(url_for('peminjaman'))	
 
 @application.route('/peminjamanUpdate/<int:id>', methods=['GET', 'POST'])
@@ -113,14 +112,13 @@ def peminjamanUpdate(id):
         id_anggota_json = getMethod("SELECT id_anggota, nama_anggota FROM `anggota`")
         id_petugas_json = getMethod("SELECT id_petugas, nama_petugas FROM `petugas`")
         return render_template('peminjamanUpdate.html', data_lama = data_lama, id_buku = id_buku_json, id_anggota = id_anggota_json, id_petugas = id_petugas_json)	
-    elif request.method == 'POST':
-        id_peminjaman = request.form['id_peminjaman']			
+    elif request.method == 'POST':		
         tanggal_pinjam = request.form['tanggal_pinjam']			
         tanggal_kembali = request.form['tanggal_kembali']				
         id_buku = request.form['id_buku']
         id_anggota = request.form['id_anggota']
         id_petugas = request.form['id_petugas']
-        postMethod("UPDATE `peminjaman` SET `id_peminjaman` = '"+id_peminjaman+"', `tanggal_peminjaman` = '"+tanggal_pinjam+"', `tanggal_kembali` = '"+tanggal_kembali+"', `id_buku` = '"+id_buku+"', `id_anggota` = '"+id_anggota+"', `id_petugas` = '"+id_petugas+"' WHERE `peminjaman`.`id_peminjaman` = "+str(id)+"; ", 'Data Peminjaman Berhasil Diubah')
+        postMethod("UPDATE `peminjaman` SET `tanggal_peminjaman` = '"+tanggal_pinjam+"', `tanggal_kembali` = '"+tanggal_kembali+"', `id_buku` = '"+id_buku+"', `id_anggota` = '"+id_anggota+"', `id_petugas` = '"+id_petugas+"' WHERE `peminjaman`.`id_peminjaman` = "+str(id)+"; ", 'Data Peminjaman Berhasil Diubah')
         return redirect(url_for('peminjaman'))
 
 @application.route('/peminjamanDelete/<int:id>', methods=['GET'])
@@ -131,7 +129,7 @@ def peminjamanDelete(id):
 
 @application.route('/pengembalian')
 def pengembalian():
-    output_json = getMethod("SELECT p.id_pengembalian, p.tanggal_pengembalian, p.denda, b.judul_buku, a.nama_anggota, t.nama_petugas from pengembalian p inner join buku b on b.id_buku = p.id_buku inner join anggota a on a.id_anggota = p.id_anggota inner join petugas t on t.id_petugas = p.id_petugas")
+    output_json = getMethod("SELECT p.id_pengembalian, p.tanggal_pengembalian, p.denda, b.judul_buku, a.nama_anggota, t.nama_petugas from pengembalian p inner join buku b on b.id_buku = p.id_buku inner join anggota a on a.id_anggota = p.id_anggota inner join petugas t on t.id_petugas = p.id_petugas ORDER BY `p`.`tanggal_pengembalian` DESC")
     return render_template('pengembalian.html',kalimat=output_json)
 
 @application.route('/pengembalianAdd', methods=['GET', 'POST']) 
@@ -141,14 +139,13 @@ def pengembalianAdd():
         id_anggota_json = getMethod("SELECT id_anggota, nama_anggota FROM `anggota`")
         id_petugas_json = getMethod("SELECT id_petugas, nama_petugas FROM `petugas`")
         return render_template('pengembalianAdd.html', id_buku = id_buku_json, id_anggota = id_anggota_json, id_petugas = id_petugas_json)	
-    elif request.method =='POST':
-        id = request.form['id']			
+    elif request.method =='POST':	
         tanggal_kembali = request.form['tanggal_kembali']				
         denda = request.form['denda']			
         id_buku = request.form['id_buku']
         id_anggota = request.form['id_anggota']
         id_petugas = request.form['id_petugas']
-        postMethod("INSERT INTO `pengembalian` (`id_pengembalian`, `tanggal_pengembalian`, `denda`, `id_buku`, `id_anggota`, `id_petugas`) VALUES ('"+id+"', '"+tanggal_kembali+"', '"+denda+"','"+id_buku+"', '"+id_anggota+"', '"+id_petugas+"');", 'Data pengembalian Berhasil Ditambah')
+        postMethod("INSERT INTO `pengembalian` (`tanggal_pengembalian`, `denda`, `id_buku`, `id_anggota`, `id_petugas`) VALUES ('"+tanggal_kembali+"', '"+denda+"','"+id_buku+"', '"+id_anggota+"', '"+id_petugas+"');", 'Data pengembalian Berhasil Ditambah')
         return redirect(url_for('pengembalian'))	
 
 @application.route('/pengembalianUpdate/<int:id>', methods=['GET', 'POST'])
@@ -160,14 +157,13 @@ def pengembalianUpdate(id):
         id_anggota_json = getMethod("SELECT id_anggota, nama_anggota FROM `anggota`")
         id_petugas_json = getMethod("SELECT id_petugas, nama_petugas FROM `petugas`")
         return render_template('pengembalianUpdate.html', data_lama = data_lama, id_buku = id_buku_json, id_anggota = id_anggota_json, id_petugas = id_petugas_json)	
-    elif request.method == 'POST':
-        id = request.form['id']			
+    elif request.method == 'POST':		
         tanggal_kembali = request.form['tanggal_kembali']				
         denda = request.form['denda']			
         id_buku = request.form['id_buku']
         id_anggota = request.form['id_anggota']
         id_petugas = request.form['id_petugas']
-        postMethod("UPDATE `pengembalian` SET `id_pengembalian` = '"+id+"', `tanggal_pengembalian` = '"+tanggal_kembali+"', `denda` = '"+denda+"', `id_buku` = '"+id_buku+"', `id_anggota` = '"+id_anggota+"', `id_petugas` = '"+id_petugas+"' WHERE `pengembalian`.`id_pengembalian` = "+str(id)+";", 'Data pengembalian Berhasil Diubah')
+        postMethod("UPDATE `pengembalian` SET `tanggal_pengembalian` = '"+tanggal_kembali+"', `denda` = '"+denda+"', `id_buku` = '"+id_buku+"', `id_anggota` = '"+id_anggota+"', `id_petugas` = '"+id_petugas+"' WHERE `pengembalian`.`id_pengembalian` = "+str(id)+";", 'Data pengembalian Berhasil Diubah')
         return redirect(url_for('pengembalian'))
 
 @application.route('/pengembalianDelete/<int:id>', methods=['GET'])
@@ -178,38 +174,38 @@ def pengembalianDelete(id):
 
 @application.route('/buku')
 def buku():
-    output_json = getMethod("SELECT * from buku")
+    output_json = getMethod("SELECT b.id_buku, b.judul_buku, kb.nama_kode, b.penulis_buku, b.penerbit_buku, b.tahun_penerbit, b.stok from buku b inner join kode_buku kb on kb.id_kode = b.id_kode ORDER BY b.judul_buku ASC")
     return render_template('buku.html',kalimat=output_json)
 
 @application.route('/bukuAdd', methods=['GET', 'POST']) 
 def bukuAdd():							
     if request.method == 'GET':
-        return render_template('bukuAdd.html')	
-    elif request.method =='POST':
-        id = request.form['id']			
+        kode_buku = getMethod("SELECT id_kode, nama_kode, deskripsi from kode_buku")
+        return render_template('bukuAdd.html', kode_buku=kode_buku)	
+    elif request.method =='POST':		
         kode = request.form['kode']				
         judul = request.form['judul']			
         penulis = request.form['penulis']
         penerbit = request.form['penerbit']
         tahun_terbit = request.form['tahun_terbit']
         stok = request.form['stok']
-        postMethod("INSERT INTO `buku` (`id_buku`, `kode_buku`, `judul_buku`, `penulis_buku`, `penerbit_buku`, `tahun_penerbit`, `stok`) VALUES ('"+id+"', '"+kode+"', '"+judul+"','"+penulis+"', '"+penerbit+"', '"+tahun_terbit+"', '"+stok+"');", 'Data buku Berhasil Ditambah')
+        postMethod("INSERT INTO `buku` (`id_kode`, `judul_buku`, `penulis_buku`, `penerbit_buku`, `tahun_penerbit`, `stok`) VALUES ('"+kode+"', '"+judul+"','"+penulis+"', '"+penerbit+"', '"+tahun_terbit+"', '"+stok+"');", 'Data buku Berhasil Ditambah')
         return redirect(url_for('buku'))	
 
 @application.route('/bukuUpdate/<int:id>', methods=['GET', 'POST'])
 def bukuUpdate(id):
     if request.method == 'GET':
         data_lama = getMethod("SELECT * from buku WHERE id_buku='"+str(id)+"';")
-        return render_template('bukuUpdate.html', data_lama = data_lama)	
-    elif request.method == 'POST':
-        id = request.form['id']			
+        kode_buku = getMethod("SELECT id_kode, nama_kode, deskripsi from kode_buku")
+        return render_template('bukuUpdate.html', data_lama = data_lama, kode_buku=kode_buku)	
+    elif request.method == 'POST':		
         kode = request.form['kode']				
         judul = request.form['judul']			
         penulis = request.form['penulis']
         penerbit = request.form['penerbit']
         tahun_terbit = request.form['tahun_terbit']
         stok = request.form['stok']
-        postMethod("UPDATE `buku` SET `id_buku` = '"+id+"', `kode_buku` = '"+kode+"', `judul_buku` = '"+judul+"', `penulis_buku` = '"+penulis+"', `penerbit_buku` = '"+penerbit+"', `tahun_penerbit` = '"+tahun_terbit+"', `stok` = '"+stok+"' WHERE `buku`.`id_buku` = "+str(id)+";", 'Data buku Berhasil Diubah')
+        postMethod("UPDATE `buku` SET `id_kode` = '"+kode+"', `judul_buku` = '"+judul+"', `penulis_buku` = '"+penulis+"', `penerbit_buku` = '"+penerbit+"', `tahun_penerbit` = '"+tahun_terbit+"', `stok` = '"+stok+"' WHERE `buku`.`id_buku` = "+str(id)+";", 'Data buku Berhasil Diubah')
         return redirect(url_for('buku'))
 
 @application.route('/bukuDelete/<int:id>', methods=['GET'])
@@ -257,9 +253,6 @@ def rakUpdate(id):
             postMethod("INSERT INTO `relasi_rak_buku` (`id_rak`, `id_buku`) VALUES ('"+id_rak+"', '"+i+"');", 'success')
             print(i)
         return redirect(url_for('rak'))	
-        
-        postMethod("UPDATE `rak` SET `id_rak` = '"+id+"', `nama_rak` = '"+nama+"', `lokasi_rak` = '"+lokasi+"' WHERE `rak`.`id_rak` = "+str(id)+";", 'Data rak Berhasil Diubah')
-        return redirect(url_for('rak'))
 
 @application.route('/rakDelete/<int:id>', methods=['GET'])
 def rakDelete(id):
@@ -286,10 +279,7 @@ def anggotaAdd():
         jurusan = request.form['jurusan']
         hp = request.form['hp']
         alamat = request.form['alamat']
-        genre = request.form.getlist("genre")
-        print("ini genre" + list(genre))
-        genre_arr = ', '.join(genre)
-        postMethod("INSERT INTO `anggota` (`id_anggota`, `kode_anggota`, `nama_anggota`, `jk_anggota`, `jurusan_anggota`, `no_telp_anggota`, `alamat_anggota`, `genre_buku`) VALUES ('"+id+"', '"+kode+"', '"+nama+"', '"+jk+"','"+jurusan+"', '"+hp+"', '"+alamat+"', '"+genre_arr+"');", 'Data anggota Berhasil Ditambah')
+        postMethod("INSERT INTO `anggota` (`id_anggota`, `kode_anggota`, `nama_anggota`, `jk_anggota`, `jurusan_anggota`, `no_telp_anggota`, `alamat_anggota`) VALUES ('"+id+"', '"+kode+"', '"+nama+"', '"+jk+"','"+jurusan+"', '"+hp+"', '"+alamat+"');", 'Data anggota Berhasil Ditambah')
         return redirect(url_for('anggota'))	
 
 @application.route('/anggotaUpdate/<int:id>', methods=['GET', 'POST'])
@@ -306,9 +296,7 @@ def anggotaUpdate(id):
         jurusan = request.form['jurusan']
         hp = request.form['hp']
         alamat = request.form['alamat']
-        genre = request.form.getlist("genre")
-        genre_arr = ', '.join(genre)
-        postMethod("UPDATE `anggota` SET `id_anggota` = '"+id_anggota+"', `kode_anggota` = '"+kode+"', `nama_anggota` = '"+nama+"', `jk_anggota` = '"+jk+"', `jurusan_anggota` = '"+jurusan+"', `no_telp_anggota` = '"+hp+"', `alamat_anggota` = '"+alamat+"', `genre_buku` = '"+genre_arr+"' WHERE `anggota`.`id_anggota` = "+str(id)+";", 'Data anggota Berhasil Diubah')
+        postMethod("UPDATE `anggota` SET `id_anggota` = '"+id_anggota+"', `kode_anggota` = '"+kode+"', `nama_anggota` = '"+nama+"', `jk_anggota` = '"+jk+"', `jurusan_anggota` = '"+jurusan+"', `no_telp_anggota` = '"+hp+"', `alamat_anggota` = '"+alamat+"' WHERE `anggota`.`id_anggota` = "+str(id)+";", 'Data anggota Berhasil Diubah')
         return redirect(url_for('anggota'))
 
 @application.route('/anggotaDelete/<int:id>', methods=['GET'])
