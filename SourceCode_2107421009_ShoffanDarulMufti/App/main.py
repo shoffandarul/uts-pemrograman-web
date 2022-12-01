@@ -358,10 +358,5 @@ def petugasDelete(id):
         postMethod("DELETE FROM `petugas` WHERE `petugas`.`id_petugas` = '"+str(id)+"';", 'Data petugas Berhasil Dihapus')
         return redirect(url_for('petugas'))
 
-
-@application.route('/api/')
-def api():
-    return render_template('api.html')
-
 if __name__ == '__main__':
     application.run(debug=True)
