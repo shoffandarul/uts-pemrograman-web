@@ -38,6 +38,13 @@ def postMethod(sqlstr, message):
     finally:
         db.close()
         
+def getData(url):
+    response = urllib.request.urlopen(url)
+    content = response.read()
+    output = json.loads(content) 
+    # print(output)
+    return output
+
 @application.route('/')
 
 @application.route('/index')
@@ -87,8 +94,9 @@ def dashboard():
 
 @application.route('/peminjaman')
 def peminjaman():
-    output_json = getMethod("SELECT p.id_peminjaman, p.tanggal_peminjaman, p.tanggal_kembali, b.judul_buku, a.nama_anggota, t.nama_petugas from peminjaman p inner join buku b on b.id_buku = p.id_buku inner join anggota a on a.id_anggota = p.id_anggota inner join petugas t on t.id_petugas = p.id_petugas  ORDER BY `p`.`tanggal_peminjaman` DESC")
-    return render_template('peminjaman.html',kalimat=output_json)
+    output = getData(f"http://127.0.0.1:5000/api/v1/peminjaman")
+    flash('Data peminjaman berhasil didapatkan!', 'success')
+    return render_template('peminjaman.html', data=output['peminjaman'])
 
 @application.route('/peminjamanAdd', methods=['GET', 'POST'])   
 def peminjamanAdd():							
@@ -133,8 +141,9 @@ def peminjamanDelete(id):
 
 @application.route('/pengembalian')
 def pengembalian():
-    output_json = getMethod("SELECT p.id_pengembalian, p.tanggal_pengembalian, p.denda, b.judul_buku, a.nama_anggota, t.nama_petugas from pengembalian p inner join buku b on b.id_buku = p.id_buku inner join anggota a on a.id_anggota = p.id_anggota inner join petugas t on t.id_petugas = p.id_petugas ORDER BY `p`.`tanggal_pengembalian` DESC")
-    return render_template('pengembalian.html',kalimat=output_json)
+    output = getData(f"http://127.0.0.1:5000/api/v1/pengembalian")
+    flash('Data pengembalian berhasil didapatkan!', 'success')
+    return render_template('pengembalian.html', data=output['pengembalian'])
 
 @application.route('/pengembalianAdd', methods=['GET', 'POST']) 
 def pengembalianAdd():							
@@ -178,19 +187,9 @@ def pengembalianDelete(id):
 
 @application.route('/buku')
 def buku():
-    url = f"http://127.0.0.1:5000/api/v1/buku"
-
-    response = urllib.request.urlopen(url)
-    content = response.read()
-    output = json.loads(content) 
-    # print(output) 
+    output = getData(f"http://127.0.0.1:5000/api/v1/buku")
     flash('Data buku berhasil didapatkan!', 'success')
     return render_template('buku.html', data=output['buku'])
-
-# @application.route('/buku')
-# def buku():
-#     output_json = getMethod("SELECT b.id_buku, b.judul_buku, kb.nama_kode, b.penulis_buku, b.penerbit_buku, b.tahun_penerbit, b.stok from buku b inner join kode_buku kb on kb.id_kode = b.id_kode ORDER BY b.judul_buku ASC")
-#     return render_template('buku.html',kalimat=output_json)
 
 @application.route('/bukuAdd', methods=['GET', 'POST']) 
 def bukuAdd():							
@@ -232,8 +231,9 @@ def bukuDelete(id):
 
 @application.route('/rak')
 def rak():
-    output_json = getMethod("SELECT r.id_rak, r.nama_rak, r.lokasi_rak, rb.id_relasi, rb.id_buku, b.judul_buku FROM rak r INNER JOIN relasi_rak_buku rb ON rb.id_rak = r.id_rak INNER JOIN buku b ON b.id_buku = rb.id_buku ORDER BY `r`.`id_rak` ASC")
-    return render_template('rak.html',kalimat=output_json)
+    output = getData(f"http://127.0.0.1:5000/api/v1/rak")
+    flash('Data rak berhasil didapatkan!', 'success')
+    return render_template('rak.html', data=output['rak'])
 
 @application.route('/rakAdd', methods=['GET', 'POST']) 
 def rakAdd():							
@@ -277,10 +277,10 @@ def rakDelete(id):
     return render_template('rak.html')
 
 @application.route('/anggota')  
-def anggota():                  
-    output_json = getMethod("SELECT * from anggota")
-    print(output_json)
-    return render_template('anggota.html',kalimat=output_json) 
+def anggota():
+    output = getData(f"http://127.0.0.1:5000/api/v1/anggota") 
+    flash('Data anggota berhasil didapatkan!', 'success')
+    return render_template('anggota.html', data=output['anggota'])
 
 @application.route('/anggotaAdd', methods=['GET', 'POST']) 
 def anggotaAdd():							
@@ -321,9 +321,10 @@ def anggotaDelete(id):
         return redirect(url_for('anggota'))
 
 @application.route('/petugas')  
-def petugas():                  
-    output_json = getMethod("SELECT * from petugas")
-    return render_template('petugas.html',kalimat=output_json) 
+def petugas():
+    output = getData(f"http://127.0.0.1:5000/api/v1/petugas")
+    flash('Data petugas berhasil didapatkan!', 'success')
+    return render_template('petugas.html', data=output['petugas'])
 
 @application.route('/petugasAdd', methods=['GET', 'POST']) 
 def petugasAdd():							

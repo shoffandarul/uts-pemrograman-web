@@ -165,26 +165,26 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for item in kalimat %}
+                  {% for item in data %}
                   <tr>
                     <td>
-                      <p>{{ item[0] }}</p>
+                      <p>{{ item.id_rak }}</p>
                     </td>
                     <td>
-                      <p>{{ item[2] }}</p>
+                      <p>{{ item.lokasi }}</p>
                     </td>
                     <td>
-                      <p>{{ item[1] }}</p>
+                      <p>{{ item.nama }}</p>
                     </td>
                     <td>
-                      <p>{{ item[5] }}</p>
+                      <p>{{ item.judul_buku }}</p>
                     </td>
                     <td class="project-actions">
-                      <a class="btn btn-info btn-sm" href="rakUpdate/{{ item[0] }}">
+                      <a class="btn btn-info btn-sm" href="rakUpdate/{{ item.id_rak }}">
                         <i class="fas fa-pencil-alt"> </i>
                         Edit
                       </a>
-                      <a class="btn btn-danger btn-sm" href="rakDelete/{{ item[3] }}" onclick="return confirm('Are you sure you want to delete?');">
+                      <a class="btn btn-danger btn-sm" href="rakDelete/{{ item.id_rak }}" onclick="return confirm('Are you sure you want to delete?');">
                         <i class="fas fa-trash"> </i>
                         Delete
                       </a>

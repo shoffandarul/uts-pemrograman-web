@@ -163,22 +163,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for item in kalimat %}
+                  {% for item in data %}
                   <tr>
                     <td>
                       <p class="m-0">
-                        {{ item[1] }} <br />
-                        <small>ID: {{ item[0] }}</small>
+                        {{ item.nama }} <br />
+                        <small>ID: {{ item.id_petugas }}</small>
                       </p>
                     </td>
                     <td>
-                      <p class="m-0">{{ item[2] }}</p>
+                      <p class="m-0">{{ item.jabatan }}</p>
                     </td>
                     <td>
-                      <p class="m-0">{{ item[3] }}</p>
+                      <p class="m-0">{{ item.no_telp }}</p>
                     </td>
                     <td>
-                      <p class="m-0">{{ item[4] }}</p>
+                      <p class="m-0">{{ item.alamat }}</p>
                     </td>
                     <td class="project-actions">
                       <a class="btn btn-info btn-sm" href="petugasUpdate/{{ item[0] }}">

@@ -166,29 +166,29 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for item in kalimat %}
+                  {% for item in data %}
                   <tr>
                     <td>
-                      <p>{{ item[1] }}</p>
+                      <p>{{ item.tgl_pinjam }}</p>
                     </td>
                     <td>
-                      <p>{{ item[2] }}</p>
+                      <p>{{ item.tgl_kembali }}</p>
                     </td>
                     <td>
-                      <p>{{ item[3] }}</p>
+                      <p>{{ item.judul_buku }}</p>
                     </td>
                     <td>
-                      <p>{{ item[4] }}</p>
+                      <p>{{ item.nama_anggota }}</p>
                     </td>
                     <td>
-                      <p>{{ item[5] }}</p>
+                      <p>{{ item.nama_petugas }}</p>
                     </td>
                     <td class="project-actions">
-                      <a class="btn btn-info btn-sm" href="peminjamanUpdate/{{ item[0] }}">
+                      <a class="btn btn-info btn-sm" href="peminjamanUpdate/{{ item.id_peminjaman }}">
                         <i class="fas fa-pencil-alt"> </i>
                         Edit
                       </a>
-                      <a class="btn btn-danger btn-sm" href="peminjamanDelete/{{ item[0] }}" onclick="return confirm('Are you sure you want to delete?');">
+                      <a class="btn btn-danger btn-sm" href="peminjamanDelete/{{ item.id_peminjaman }}" onclick="return confirm('Are you sure you want to delete?');">
                         <i class="fas fa-trash"> </i>
                         Delete
                       </a>

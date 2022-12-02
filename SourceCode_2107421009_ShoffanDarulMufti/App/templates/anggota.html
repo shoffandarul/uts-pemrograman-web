@@ -165,35 +165,35 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for item in kalimat %}
+                  {% for item in data %}
                   <tr>
                     <td>
                       <p class="m-0">
-                        {{ item[1] }} <br />
-                        <small>ID: {{ item[0] }}</small>
+                        {{ item.nama }} <br />
+                        <small>ID: {{ item.id_anggota }}</small>
                       </p>
                     </td>
                     <td>
-                      <p class="m-0">{{ item[2] }}</p>
+                      <p class="m-0">{{ item.kode }}</p>
                     </td>
                     <td>
-                      <p class="m-0">{{ item[3] }}</p>
+                      <p class="m-0">{{ item.jk }}</p>
                     </td>
                     <td>
-                      <p class="m-0">{{ item[4] }}</p>
+                      <p class="m-0">{{ item.jurusan }}</p>
                     </td>
                     <td>
-                      <p class="m-0">{{ item[5] }}</p>
+                      <p class="m-0">{{ item.no_telp }}</p>
                     </td>
                     <td>
-                      <p class="m-0">{{ item[6] }}</p>
+                      <p class="m-0">{{ item.alamat }}</p>
                     </td>
                     <td class="project-actions">
-                      <a class="btn btn-info btn-sm" href="anggotaUpdate/{{ item[0] }}">
+                      <a class="btn btn-info btn-sm" href="anggotaUpdate/{{ item.id_anggota }}">
                         <i class="fas fa-pencil-alt"> </i>
                         Edit
                       </a>
-                      <a class="btn btn-danger btn-sm" href="anggotaDelete/{{ item[0] }}" onclick="return confirm('Are you sure you want to delete?');">
+                      <a class="btn btn-danger btn-sm" href="anggotaDelete/{{ item.id_anggota }}" onclick="return confirm('Are you sure you want to delete?');">
                         <i class="fas fa-trash"> </i>
                         Delete
                       </a>
