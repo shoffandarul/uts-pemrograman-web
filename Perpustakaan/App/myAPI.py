@@ -36,6 +36,13 @@ def postMethod(sqlstr, message):
     finally:
         db.close()
 
+def getData(url):
+    response = urllib.request.urlopen(url)
+    content = response.read()
+    output = json.loads(content) 
+    # print(output)
+    return output
+
 @api.route('/api/')
 def my_api():
     return render_template('api.html')
@@ -106,16 +113,51 @@ def api_buku():
         content = {}
     return jsonify(buku)
 
-# @api.route('/api/v1/kode-buku')
-# def api_kode_buku():
-#     output_db = getMethod("SELECT * FROM `kode_buku`")
-#     kode_buku = {}
-#     kode_buku['kode_buku'] = []
-#     for column in output_db:
-#         content = {'id_kode':column[0], 'nama':column[1], 'deskripsi':column[2]}
-#         kode_buku['kode_buku'].append(content)
-#         content = {}
-#     return jsonify(kode_buku)
+@api.route('/api/v1/kode-buku')
+def api_kode_buku():
+    output_db = getMethod("SELECT * FROM `kode_buku`")
+    kode_buku = {}
+    kode_buku['kode_buku'] = []
+    for column in output_db:
+        content = {'id_kode':column[0], 'nama':column[1], 'deskripsi':column[2]}
+        kode_buku['kode_buku'].append(content)
+        content = {}
+    return jsonify(kode_buku)
+
+@api.route('/api/v1/buku/id/<int:id>', methods=['GET'])
+def api_buku_by_id(id):
+    output_db = getMethod("SELECT b.id_buku, b.judul_buku, kb.nama_kode, b.penulis_buku, b.penerbit_buku, b.tahun_penerbit, b.stok from buku b inner join kode_buku kb on kb.id_kode = b.id_kode WHERE b.id_buku = '"+str(id)+"';")
+    buku = {}
+    buku['buku'] = []
+    for column in output_db:
+        content = {'id_buku':column[0], 'judul':column[1], 'kode':column[2], 'penulis':column[3], 'penerbit':column[4], 'tahun':column[5], 'stok':column[6]}
+        buku['buku'].append(content)
+        content = {}
+    return jsonify(buku)
+
+@api.route('/api/v1/buku/kode/<string:kode>', methods=['GET'])
+def api_buku_by_kode(kode):
+    output_db = getMethod("SELECT b.id_buku, b.judul_buku, kb.nama_kode, b.penulis_buku, b.penerbit_buku, b.tahun_penerbit, b.stok from buku b inner join kode_buku kb on kb.id_kode = b.id_kode WHERE kb.nama_kode = '"+kode+"';")
+    buku = {}
+    buku['buku'] = []
+    for column in output_db:
+        content = {'id_buku':column[0], 'judul':column[1], 'kode':column[2], 'penulis':column[3], 'penerbit':column[4], 'tahun':column[5], 'stok':column[6]}
+        buku['buku'].append(content)
+        content = {}
+    return jsonify(buku)	
+
+@api.route('/api/v1/buku/insert', methods=['POST']) 
+def api_buku_insert():							
+    kode = request.form['kode']
+    judul = request.form['judul']
+    penulis = request.form['penulis']
+    penerbit = request.form['penerbit']
+    tahun_terbit = request.form['tahun_terbit']
+    stok = request.form['stok']
+
+    print(request.form.to_dict())
+    postMethod("INSERT INTO `buku` (`id_kode`, `judul_buku`, `penulis_buku`, `penerbit_buku`, `tahun_penerbit`, `stok`) VALUES ('"+kode+"', '"+judul+"','"+penulis+"', '"+penerbit+"', '"+tahun_terbit+"', '"+stok+"');", 'Data buku Berhasil Ditambah')
+    return jsonify({'msg':'insert success','kode':'200'})
 
 # @api.route('/api/v1/relasi-rak-buku')
 # def api_relasi_rak_buku():

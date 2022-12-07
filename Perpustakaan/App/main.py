@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, flash, jsonify
-from myAPI import api
+from myAPI import *
 import mysql.connector
 import urllib.request, json
 
@@ -191,20 +191,35 @@ def buku():
     flash('Data buku berhasil didapatkan!', 'success')
     return render_template('buku.html', data=output['buku'])
 
-@application.route('/bukuAdd', methods=['GET', 'POST']) 
-def bukuAdd():							
+@application.route('/buku/id/<int:id>', methods=['GET'])
+def buku_by_id(id):
+    output = getData(f"http://127.0.0.1:5000/api/v1/buku/id/"+str(id))
+    flash('Data buku '+str(id)+'  berhasil didapatkan!', 'success')
+    return render_template('buku.html', data=output['buku'])
+
+@application.route('/buku/insert', methods=['GET', 'POST']) 
+def buku_insert():							
     if request.method == 'GET':
-        kode_buku = getMethod("SELECT id_kode, nama_kode, deskripsi from kode_buku")
-        return render_template('bukuAdd.html', kode_buku=kode_buku)	
-    elif request.method =='POST':		
-        kode = request.form['kode']				
-        judul = request.form['judul']			
-        penulis = request.form['penulis']
-        penerbit = request.form['penerbit']
-        tahun_terbit = request.form['tahun_terbit']
-        stok = request.form['stok']
-        postMethod("INSERT INTO `buku` (`id_kode`, `judul_buku`, `penulis_buku`, `penerbit_buku`, `tahun_penerbit`, `stok`) VALUES ('"+kode+"', '"+judul+"','"+penulis+"', '"+penerbit+"', '"+tahun_terbit+"', '"+stok+"');", 'Data buku Berhasil Ditambah')
-        return redirect(url_for('buku'))	
+        output = getData(f"http://127.0.0.1:5000/api/v1/kode-buku")
+        return render_template('bukuAdd.html', data=output['kode_buku'])	
+    elif request.method =='POST':
+        api_buku_insert()
+        return redirect(url_for('buku'))
+
+# @application.route('/bukuAdd', methods=['GET', 'POST']) 
+# def bukuAdd():							
+#     if request.method == 'GET':
+#         kode_buku = getMethod("SELECT id_kode, nama_kode, deskripsi from kode_buku")
+#         return render_template('bukuAdd.html', kode_buku=kode_buku)	
+#     elif request.method =='POST':		
+#         kode = request.form['kode']				
+#         judul = request.form['judul']			
+#         penulis = request.form['penulis']
+#         penerbit = request.form['penerbit']
+#         tahun_terbit = request.form['tahun_terbit']
+#         stok = request.form['stok']
+#         postMethod("INSERT INTO `buku` (`id_kode`, `judul_buku`, `penulis_buku`, `penerbit_buku`, `tahun_penerbit`, `stok`) VALUES ('"+kode+"', '"+judul+"','"+penulis+"', '"+penerbit+"', '"+tahun_terbit+"', '"+stok+"');", 'Data buku Berhasil Ditambah')
+#         return redirect(url_for('buku'))	
 
 @application.route('/bukuUpdate/<int:id>', methods=['GET', 'POST'])
 def bukuUpdate(id):

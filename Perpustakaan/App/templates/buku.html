@@ -3,10 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dashboard</title>
+    <title>Anggota</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
     <link rel="stylesheet" href="../static/plugins/fontawesome-free/css/all.min.css" />
-    <link rel="stylesheet" href="../static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
     <link rel="stylesheet" href="../static/css/adminlte.min.css" />
   </head>
   <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -16,6 +15,7 @@
           <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
           </li>
+          <li class="nav-item d-none d-sm-inline-block"></li>
         </ul>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -56,13 +56,15 @@
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <a href="{{ url_for('dashboard') }}" class="brand-link">
           <img src="../static/img/logo-pnj.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
-          <span class="brand-text font-weight-light ml-1">Perpustakaan TMJ</span>
+          <span class="brand-text font-weight-light">Perpustakaan TMJ</span>
         </a>
         <div class="sidebar">
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-              <img src="../static/img/avatar.png" class="img-fluid" alt="User Image" />
-              <span class="brand-text ml-2">Shoffan Darul M.</span>
+              <img src="../static/img/avatar.png" class="img-circle elevation-2 img-fluid" alt="User Image" />
+            </div>
+            <div class="info">
+              <a href="#" class="d-block">Shoffan Darul M.</a>
             </div>
           </div>
           <div class="form-inline">
@@ -78,7 +80,7 @@
           <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item menu-open">
-                <a href="{{ url_for('dashboard') }}" class="nav-link active">
+                <a href="{{ url_for('dashboard') }}" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Dashboard</p>
                 </a>
@@ -96,7 +98,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url_for('buku') }}" class="nav-link">
+                <a href="{{ url_for('buku') }}" class="nav-link active">
                   <i class="nav-icon fas fa-book"></i>
                   <p>Tabel Buku</p>
                 </a>
@@ -124,24 +126,92 @@
         </div>
       </aside>
       <div class="content-wrapper">
-        {%block content%} {%endblock%}
-        <aside class="control-sidebar control-sidebar-dark"></aside>
-        <footer class="main-footer">
-          <strong>Copyright &copy; 2022 <a href="{{ url_for('index') }}">Shoffan Darul Mufti</a>.</strong>
-          All rights reserved.
-          <div class="float-right d-none d-sm-inline-block"><b>Version</b> 1.0</div>
-        </footer>
-        <script src="../static/plugins/jquery/jquery.min.js"></script>
-        <script src="../static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-        <script src="../static/js/adminlte.js"></script>
-        <script src="../static/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-        <script src="../static/plugins/raphael/raphael.min.js"></script>
-        <script src="../static/plugins/jquery-mapael/jquery.mapael.min.js"></script>
-        <script src="../static/plugins/jquery-mapael/maps/usa_states.min.js"></script>
-        <script src="../static/plugins/chart.js/Chart.min.js"></script>
-        <script src="../static/js/pages/dashboard2.js"></script>
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2"></div>
+          </div>
+        </section>
+        <section class="content">
+          <div class="alert alert-success">
+            <a href="#" class="close text-white" data-dismiss="alert" aria-label="close">&times;</a>
+            {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %} {{ message }} {% endfor %} {% endif %} {% endwith %}
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <a class="btn btn-success btn-sm" href="{{ 'bukuAdd' }}">
+                <i class="fas fa-plus-circle"> </i>
+                Tambah Buku Baru
+              </a>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-striped projects text-left">
+                <thead>
+                  <tr>
+                    <th>Kode Buku</th>
+                    <th>Judul Buku</th>
+                    <th>Penulis Buku</th>
+                    <th>Penerbit Buku</th>
+                    <th>Tahun Terbit</th>
+                    <th>Stok</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in data %}
+                  <tr>
+                    <td>
+                      <p>{{ item.kode }}</p>
+                    </td>
+                    <td>
+                      <p>{{ item.judul }}</p>
+                    </td>
+                    <td>
+                      <p>{{ item.penulis }}</p>
+                    </td>
+                    <td>
+                      <p>{{ item.penerbit }}</p>
+                    </td>
+                    <td>
+                      <p>{{ item.tahun }}</p>
+                    </td>
+                    <td>
+                      <p>{{ item.stok }}</p>
+                    </td>
+                    <td class="project-actions">
+                      <a class="btn btn-info btn-sm" href="bukuUpdate/{{ item.id_buku }}">
+                        <i class="fas fa-pencil-alt"> </i>
+                        Edit
+                      </a>
+                      <a class="btn btn-danger btn-sm" href="bukuDelete/{{ item.id_buku }}" onclick="return confirm('Are you sure you want to delete?');">
+                        <i class="fas fa-trash"> </i>
+                        Delete
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
       </div>
+      <footer class="main-footer">
+        <strong>Copyright &copy; 2022 <a href="{{ url_for('index') }}">Shoffan Darul Mufti</a>.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block"><b>Version</b> 1.0</div>
+      </footer>
+      <aside class="control-sidebar control-sidebar-dark"></aside>
     </div>
+    <script src="../static/plugins/jquery/jquery.min.js"></script>
+    <script src="../static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/adminlte.min.js"></script>
   </body>
 </html>

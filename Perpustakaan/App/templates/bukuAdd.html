@@ -157,8 +157,8 @@
                   <div class="form-group col-md-6">
                     <label>Kode Buku</label>
                     <select name="kode" class="form-control">
-                      {% for item in kode_buku %}
-                      <option value="{{ item[0] }}">{{ item[1] }} - {{ item[2] }}</option>
+                      {% for item in data %}
+                      <option value="{{ item.id_kode }}">{{ item.nama }} - {{ item.deskripsi }}</option>
                       {% endfor %}
                     </select>
                   </div>
