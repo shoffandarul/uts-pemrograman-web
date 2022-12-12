@@ -154,26 +154,26 @@
               </div>
               <div class="card-body">
                 <div class="row">
-                  {% for item in kalimat %}
+                  {% for item in data %}
                   <div class="form-group col-md-6">
                     <label>ID Petugas</label>
-                    <input type="text" name="id_petugas" class="form-control" value="{{ item[0] }}" />
+                    <input type="text" name="id_petugas" class="form-control" value="{{ item.id_petugas }}" />
                   </div>
                   <div class="form-group col-md-6">
                     <label>Nama Petugas</label>
-                    <input type="text" name="nama" class="form-control" value="{{ item[1] }}" />
+                    <input type="text" name="nama" class="form-control" value="{{ item.nama }}" />
                   </div>
                   <div class="form-group col-md-6">
                     <label>Jabatan</label>
-                    <input type="text" name="jabatan" class="form-control" value="{{ item[2] }}" />
+                    <input type="text" name="jabatan" class="form-control" value="{{ item.jabatan }}" />
                   </div>
                   <div class="form-group col-md-6">
                     <label>No. Telpon</label>
-                    <input type="text" name="hp" class="form-control" value="{{ item[3] }}" />
+                    <input type="text" name="hp" class="form-control" value="{{ item.no_telp }}" />
                   </div>
                   <div class="form-group col-md-12">
                     <label>Alamat</label>
-                    <textarea class="form-control" name="alamat">{{ item[4] }}</textarea>
+                    <textarea class="form-control" name="alamat">{{ item.alamat }}</textarea>
                   </div>
                   {% endfor %}
                 </div>

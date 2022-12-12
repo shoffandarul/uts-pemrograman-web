@@ -159,24 +159,26 @@
                     {% for item in data_rak %}
                     <div class="form-group">
                       <label>ID Rak</label>
-                      <input type="text" name="id_rak" class="form-control" value="{{ item[0] }}" />
+                      <input type="text" name="id_rak" class="form-control" value="{{ item.id_rak }}" />
                     </div>
                     <div class="form-group">
                       <label>Nama Rak</label>
-                      <input type="text" name="nama" class="form-control" value="{{ item[1] }}" />
+                      <input type="text" name="nama" class="form-control" value="{{ item.nama }}" />
                     </div>
                     <div class="form-group">
                       <label>Lokasi Rak</label>
-                      <input type="text" name="lokasi" class="form-control" value="{{ item[2] }}" />
+                      <input type="text" name="lokasi" class="form-control" value="{{ item.lokasi }}" />
                     </div>
                     {% endfor %}
                   </div>
                   <div class="col-md-6">
                     <div class="form-group ml-3">
                       <label>Buku</label><br />
-                      {% for item in data_buku %}
-                      <input type="checkbox" name="buku" value="{{ item[0] }}" /> {{ item[0] }} - {{ item[1] }} <br />
-                      {% endfor %}
+                      {% set ns = namespace(status='') %} {% for item in data_buku %} {% for rel in data_rel %} {% if rel.id_buku == item.id_buku %} {% set ns.status = 'ada' %} {% endif %} {% endfor %} {% if ns.status == 'ada' %}
+                      <input type="checkbox" name="buku" value="{{ item.id_buku }}" checked /> {{ item.id_buku }} - {{ item.judul }} <br />
+                      {% else %}
+                      <input type="checkbox" name="buku" value="{{ item.id_buku }}" /> {{ item.id_buku }} - {{ item.judul }} <br />
+                      {% endif %} {% set ns.status = '' %} {% endfor %}
                     </div>
                   </div>
                 </div>

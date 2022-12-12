@@ -172,7 +172,7 @@
                     <div class="form-group ml-3">
                       <label>Buku</label> <br />
                       {% for item in id_buku %}
-                      <input type="checkbox" name="buku" value="{{ item[0] }}" /> {{ item[0] }} - {{ item[1] }} <br />
+                      <input type="checkbox" name="buku" value="{{ item.id_buku }}" /> {{ item.id_buku }} - {{ item.judul }} <br />
                       {% endfor %}
                     </div>
                   </div>

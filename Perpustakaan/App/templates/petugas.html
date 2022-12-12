@@ -181,11 +181,11 @@
                       <p class="m-0">{{ item.alamat }}</p>
                     </td>
                     <td class="project-actions">
-                      <a class="btn btn-info btn-sm" href="petugasUpdate/{{ item[0] }}">
+                      <a class="btn btn-info btn-sm" href="petugasUpdate/{{ item.id_petugas }}">
                         <i class="fas fa-pencil-alt"> </i>
                         Edit
                       </a>
-                      <a class="btn btn-danger btn-sm" href="petugasDelete/{{ item[0] }}" onclick="return confirm('Are you sure you want to delete?');">
+                      <a class="btn btn-danger btn-sm" href="petugasDelete/{{ item.id_petugas }}" onclick="return confirm('Are you sure you want to delete?');">
                         <i class="fas fa-trash"> </i>
                         Delete
                       </a>

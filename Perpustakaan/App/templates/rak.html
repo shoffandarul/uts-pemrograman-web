@@ -165,7 +165,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for item in data %}
+                  {% for item in data_rak %}
                   <tr>
                     <td>
                       <p>{{ item.id_rak }}</p>
@@ -177,7 +177,13 @@
                       <p>{{ item.nama }}</p>
                     </td>
                     <td>
-                      <p>{{ item.judul_buku }}</p>
+                      <table>
+                        <td class="table-bordered">
+                          {% for item_rel in data_rel %} {% if item_rel.id_rak == item.id_rak %}
+                          <p>{{ item_rel.judul_buku }}</p>
+                          {% endif %} {% endfor %}
+                        </td>
+                      </table>
                     </td>
                     <td class="project-actions">
                       <a class="btn btn-info btn-sm" href="rakUpdate/{{ item.id_rak }}">

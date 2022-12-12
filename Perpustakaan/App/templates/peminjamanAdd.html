@@ -171,21 +171,19 @@
                       </div>
                     </div>
                   </div>
-                  <!-- di sini, data dari primary key ditampilin jadi selection. Jadi tinggal pilih -->
                   <div class="form-group col-md-6">
                     <label>ID Buku</label>
                     <select name="id_buku" class="form-control">
                       {% for item in id_buku %}
-                      <option value="{{ item[0] }}">{{ item[0] }} - {{ item[1] }}</option>
+                      <option value="{{ item.id_buku }}">{{ item.id_buku }} - {{ item.judul }}</option>
                       {% endfor %}
                     </select>
                   </div>
-                  <!-- contohnya id_anggota dibawah -->
                   <div class="form-group col-md-6">
                     <label>ID Anggota</label>
                     <select name="id_anggota" class="form-control">
                       {% for item in id_anggota %}
-                      <option value="{{ item[0] }}">{{ item[0] }} - {{ item[1] }}</option>
+                      <option value="{{ item.id_anggota }}">{{ item.id_anggota }} - {{ item.nama }}</option>
                       {% endfor %}
                     </select>
                   </div>
@@ -193,7 +191,7 @@
                     <label>ID Petugas</label>
                     <select name="id_petugas" class="form-control">
                       {% for item in id_petugas %}
-                      <option value="{{ item[0] }}">{{ item[0] }} - {{ item[1] }}</option>
+                      <option value="{{ item.id_petugas }}">{{ item.id_petugas }} - {{ item.nama }}</option>
                       {% endfor %}
                     </select>
                   </div>

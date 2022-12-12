@@ -159,7 +159,7 @@
                   <div class="form-group col-md-6">
                     <label>Tanggal Pengembalian</label>
                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="tanggal_kembali" value="{{ item[1] }}" />
+                      <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="tanggal_kembali" value="{{ item.tgl_kembali }}" />
                       <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                       </div>
@@ -171,34 +171,40 @@
                       <div class="input-group-append">
                         <div class="input-group-text">Rp</div>
                       </div>
-                      <input type="text" name="denda" class="form-control" value="{{ item[2] }}" />
+                      <input type="text" name="denda" class="form-control" value="{{ item.denda }}" />
                     </div>
                   </div>
-                  {% endfor %}
                   <div class="form-group col-md-6">
                     <label>ID Buku</label>
                     <select name="id_buku" class="form-control">
-                      {% for item in id_buku %}
-                      <option value="{{ item[0] }}">{{ item[0] }} - {{ item[1] }}</option>
-                      {% endfor %}
+                      {% for id in id_buku %} {% if id.judul == item.judul_buku %}
+                      <option value="{{ id.id_buku }}" selected>{{ id.id_buku }} - {{ id.judul }}</option>
+                      {% else %}
+                      <option value="{{ id.id_buku }}">{{ id.id_buku }} - {{ id.judul }}</option>
+                      {% endif %} {% endfor %}
                     </select>
                   </div>
                   <div class="form-group col-md-6">
                     <label>ID Anggota</label>
                     <select name="id_anggota" class="form-control">
-                      {% for item in id_anggota %}
-                      <option value="{{ item[0] }}">{{ item[0] }} - {{ item[1] }}</option>
-                      {% endfor %}
+                      {% for id in id_anggota %} {% if id.nama == item.nama_anggota %}
+                      <option value="{{ id.id_anggota }}" selected>{{ id.id_anggota }} - {{ id.nama }}</option>
+                      {% else %}
+                      <option value="{{ id.id_anggota }}">{{ id.id_anggota }} - {{ id.nama }}</option>
+                      {% endif %} {% endfor %}
                     </select>
                   </div>
                   <div class="form-group col-md-6">
                     <label>ID Petugas</label>
                     <select name="id_petugas" class="form-control">
-                      {% for item in id_petugas %}
-                      <option value="{{ item[0] }}">{{ item[0] }} - {{ item[1] }}</option>
-                      {% endfor %}
+                      {% for id in id_petugas %} {% if id.nama == item.nama_petugas %}
+                      <option value="{{ id.id_petugas }}" selected>{{ id.id_petugas }} - {{ id.nama }}</option>
+                      {% else %}
+                      <option value="{{ id.id_petugas }}">{{ id.id_petugas }} - {{ id.nama }}</option>
+                      {% endif %} {% endfor %}
                     </select>
                   </div>
+                  {% endfor %}
                 </div>
               </div>
             </div>

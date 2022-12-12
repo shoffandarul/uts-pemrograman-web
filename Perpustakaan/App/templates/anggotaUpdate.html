@@ -154,34 +154,34 @@
               </div>
               <div class="card-body">
                 <div class="row">
-                  {% for item in kalimat %}
+                  {% for item in data %}
                   <div class="form-group col-md-6">
                     <label>ID Anggota</label>
-                    <input type="text" name="id_anggota" class="form-control" value="{{ item[0] }}" />
+                    <input type="text" name="id_anggota" class="form-control" value="{{ item.id_anggota }}" />
                   </div>
                   <div class="form-group col-md-6">
                     <label>Kode Anggota</label>
-                    <input type="text" name="kode" class="form-control" value="{{ item[1] }}" />
+                    <input type="text" name="kode" class="form-control" value="{{ item.kode }}" />
                   </div>
                   <div class="form-group col-md-6">
                     <label>Nama</label>
-                    <input type="text" name="nama" class="form-control" value="{{ item[2] }}" />
+                    <input type="text" name="nama" class="form-control" value="{{ item.nama }}" />
                   </div>
                   <div class="form-group col-md-6">
                     <label>Jenis Kelamin</label>
-                    <input type="text" name="jk" class="form-control" value="{{ item[3] }}" />
+                    <input type="text" name="jk" class="form-control" value="{{ item.jk }}" />
                   </div>
                   <div class="form-group col-md-6">
                     <label>Jurusan</label>
-                    <input type="text" name="jurusan" class="form-control" value="{{ item[4] }}" />
+                    <input type="text" name="jurusan" class="form-control" value="{{ item.jurusan }}" />
                   </div>
                   <div class="form-group col-md-6">
                     <label>No. Telpon</label>
-                    <input type="text" name="hp" class="form-control" value="{{ item[5] }}" />
+                    <input type="text" name="hp" class="form-control" value="{{ item.no_telp }}" />
                   </div>
                   <div class="form-group col-md-12">
                     <label>Alamat</label>
-                    <textarea class="form-control" name="alamat">{{ item[6] }}</textarea>
+                    <textarea class="form-control" name="alamat">{{ item.alamat }}</textarea>
                   </div>
                   {% endfor %}
                 </div>
